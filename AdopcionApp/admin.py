@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Perro, UsuarioAdoptante
+from .models import Perro, UsuarioAdoptante, #Adopcion
+
 
 def mostrar_adoptante(perro):
     usuarios = UsuarioAdoptante.objects.filter(historial_adopciones=perro)
@@ -10,13 +11,11 @@ def mostrar_adoptante(perro):
 
 mostrar_adoptante.short_description = 'Usuario Adoptante'
 
-
 def mostrar_perros_adoptados(usuario):
     perros = usuario.historial_adopciones.all()
     return ", ".join([perro.nombre for perro in perros]) if perros else "Ninguno"
 
 mostrar_perros_adoptados.short_description = 'Perros Adoptados'
-
 
 @admin.register(Perro)
 class PerroAdmin(admin.ModelAdmin):
@@ -26,7 +25,6 @@ class PerroAdmin(admin.ModelAdmin):
     ordering = ('nombre',)
     list_per_page = 10
 
-
 @admin.register(UsuarioAdoptante)
 class UsuarioAdoptanteAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'apellido', 'dni', 'email', 'telf', 'preferencias', mostrar_perros_adoptados)
@@ -35,10 +33,10 @@ class UsuarioAdoptanteAdmin(admin.ModelAdmin):
     ordering = ('apellido',)
     list_per_page = 10
 
+#@admin.register(Adopcion)
+#class AdopcionAdmin(admin.ModelAdmin):
+#    list_display = ('adoptante', 'perro', 'estado_adopcion')
+#    search_fields = ('adoptante__nombre', 'perro__nombre')
+
+
     
-
-
-
-
-
-
