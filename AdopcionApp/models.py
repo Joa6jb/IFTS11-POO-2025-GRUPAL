@@ -87,7 +87,10 @@ class UsuarioAdoptante(models.Model):
     dni = models.CharField(max_length=20, unique=True)
     email = models.EmailField()
     telf = models.CharField(max_length=15)
-    preferencias= models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES)
+    #preferencias= models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES)
+    pref_raza = models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES)
+    pref_edad = models.CharField(max_length=10, choices=Perro.EDAD_CHOICES)
+    pref_tamaño = models.CharField(max_length=2, choices=Perro.TAMAÑO_CHOICES)
     historial_adopciones = models.ManyToManyField(Perro, blank=True)
     
     #pref_raza = models.CharField(max_lenght=25, choices=PREFERENCIAS_RAZA_CHOICES)

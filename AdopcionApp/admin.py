@@ -11,9 +11,9 @@ class PerroAdmin(admin.ModelAdmin):
 
 @admin.register(UsuarioAdoptante)
 class UsuarioAdoptanteAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'apellido', 'dni', 'email', 'telf', 'preferencias')
+    list_display = ('nombre', 'apellido', 'dni', 'email', 'telf', 'pref_raza', 'pref_edad', 'pref_tamaño')
     search_fields = ('nombre', 'apellido', 'dni')
-    list_filter = ('preferencias',)
+    list_filter = ('pref_raza', 'pref_edad', 'pref_tamaño')
     ordering = ('apellido',)
     list_per_page = 10
 
