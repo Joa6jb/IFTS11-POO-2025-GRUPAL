@@ -1,5 +1,5 @@
 
-# Colaboradores: Fabian  Muiño, Isabella Sanchez, Lucia Diaz, Victoria Del Pino, Luis Canepa y Joaquin Fernandez.
+# Colaboradores: Fabian  Muiño, Isabella Sanchez, Morena Vega, Lucia Diaz, Victoria Del Pino, Luis Canepa y Joaquin Fernandez.
 
 class Perro(object):
     def __init__(self, nombre, raza, edad, tamaño, peso, estado_salud, vacunado, estado, temperamento, id):
