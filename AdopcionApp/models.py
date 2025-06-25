@@ -14,8 +14,9 @@ class Perro(models.Model):
         ('Pequines', 'Pequinés'),
         ('Pitbull', 'Pitbull'),
         ('Pastor Alemán', 'Pastor Alemán'),
-        ('Otro', 'Otro')
-    ]
+        ('Otro', 'Otro'),
+        ('xx', 'Cualquiera')
+       ]
     
     ESTADO_SALUD_CHOICES = [
         ('Saludable', 'Saludable'),
@@ -26,32 +27,38 @@ class Perro(models.Model):
         ('S', 'Pequeño'),
         ('M', 'Mediano'),
         ('L', 'Grande'),
-        ('XL', 'Extra Grande')
-    ]
+        ('XL', 'Extra Grande'),
+        ('xx', 'Cualquiera')
+        ]
 
     TEMPERAMENTO_CHOICES = [
         ('Cariñoso', 'Cariñoso'),
         ('Timido', 'Tímido'),
         ('Juguetón', 'Juguetón'),
         ('Agresivo', 'Agresivo'),
+        
     ]
     
     ESTADO_ADOPCION_CHOICES = [
         ('disponible', 'Disponible'),
         ('reservado', 'Reservado'),
-        ('adoptado', 'Adoptado')
+        ('adoptado', 'Adoptado'),
+        
     ]
     
     SEXO_CHOICES = [
         ('Macho', 'Macho'),
-        ('Hembra', 'Hembra')
+        ('Hembra', 'Hembra'),
+        ('xx', 'Cualquiera')
+        
     ]
     
     EDAD_CHOICES = [
         ('Cachorro', 'Cachorro'),
         ('Joven', 'Joven'),
         ('Adulto', 'Adulto'),
-        ('Viejito', 'Viejito')
+        ('Viejito', 'Viejito'),
+        ('xx', 'Cualquiera')
     ]
     
     nombre = models.CharField(max_length=25)
@@ -88,9 +95,10 @@ class UsuarioAdoptante(models.Model):
     email = models.EmailField()
     telf = models.CharField(max_length=15)
     #preferencias= models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES)
-    pref_raza = models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES, default='Labrador')
-    pref_edad = models.CharField(max_length=10, choices=Perro.EDAD_CHOICES, default='Adulto')
-    pref_tamaño = models.CharField(max_length=2, choices=Perro.TAMAÑO_CHOICES, default='Pequeño')
+    pref_raza = models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES, default='Cualquiera', blank=True)
+    pref_edad = models.CharField(max_length=10, choices=Perro.EDAD_CHOICES, default='Cualquiera', blank=True)
+    pref_tamaño = models.CharField(max_length=2, choices=Perro.TAMAÑO_CHOICES, default='Cualquiera', blank=True)
+    pref_sexo = models.CharField(max_length=6, choices=Perro.SEXO_CHOICES, default='Cualquiera', blank=True)
     historial_adopciones = models.ManyToManyField(Perro, blank=True)
     
     #pref_raza = models.CharField(max_lenght=25, choices=PREFERENCIAS_RAZA_CHOICES)
