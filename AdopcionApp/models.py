@@ -4,6 +4,19 @@ from django.db import models
 
 class Perro(models.Model):
     
+    RAZAS_CHOICES = [
+        ('Golden Retriever', 'Golden Retriever'),
+        ('Labrador', 'Labrador'),
+        ('Bulldog', 'Bulldog'),
+        ('Beagle', 'Beagle'),
+        ('Callejero', 'Callejero'),
+        ('Husky Siberiano', 'Husky Siberiano'),
+        ('Pequines', 'Pequinés'),
+        ('Pitbull', 'Pitbull'),
+        ('Pastor Alemán', 'Pastor Alemán'),
+        ('Otro', 'Otro')
+    ]
+    
     ESTADO_SALUD_CHOICES = [
         ('Saludable', 'Saludable'),
         ('En tratamiento', 'En tratamiento')
@@ -42,7 +55,7 @@ class Perro(models.Model):
     ]
     
     nombre = models.CharField(max_length=25)
-    raza = models.CharField(max_length=25)
+    raza = models.CharField(max_length=25, choices=RAZAS_CHOICES)
     sexo = models.CharField(max_length=6, choices=SEXO_CHOICES)
     edad = models.CharField(max_length=10, choices=EDAD_CHOICES)
     peso = models.FloatField()
@@ -59,7 +72,7 @@ class Perro(models.Model):
     
 class UsuarioAdoptante(models.Model):
     
-    PREFERENCIAS_CHOICES = [
+    """ PREFERENCIAS_CHOICES = [
         ('Golden Retriever', 'Golden Retriever'),
         ('Labrador', 'Labrador'),
         ('Bulldog', 'Bulldog'),
@@ -67,14 +80,17 @@ class UsuarioAdoptante(models.Model):
         ('Callejero', 'Callejero'),
         ('Husky Siberiano', 'Husky Siberiano'),
         ('Pequines', 'Pequinés'),
-    ]
+    ] """
     
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     dni = models.CharField(max_length=20, unique=True)
     email = models.EmailField()
     telf = models.CharField(max_length=15)
-    preferencias= models.CharField(max_length=25, choices=PREFERENCIAS_CHOICES)
+    #preferencias= models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES)
+    pref_raza = models.CharField(max_length=25, choices=Perro.RAZAS_CHOICES, default='Labrador')
+    pref_edad = models.CharField(max_length=10, choices=Perro.EDAD_CHOICES, default='Adulto')
+    pref_tamaño = models.CharField(max_length=2, choices=Perro.TAMAÑO_CHOICES, default='Pequeño')
     historial_adopciones = models.ManyToManyField(Perro, blank=True)
     
     #pref_raza = models.CharField(max_lenght=25, choices=PREFERENCIAS_RAZA_CHOICES)
@@ -85,15 +101,25 @@ class UsuarioAdoptante(models.Model):
         return f"{self.nombre} {self.apellido} ({self.dni})"
     
 class Adopcion(models.Model):
+    
+    ESTADO_ADOPCION_CHOICES_2 = [
+        ('reservado', 'Reservado'),
+        ('adoptado', 'Adoptado')
+    ]
+    
     adoptante = models.ForeignKey(UsuarioAdoptante, on_delete=models.CASCADE)
     perro = models.ForeignKey(Perro, on_delete=models.CASCADE)
-    estado_adopcion = models.CharField(max_length=50)
+    estado_adopcion = models.CharField( max_length=50, choices = ESTADO_ADOPCION_CHOICES_2)
     comentarios = models.TextField(null=True, blank=True)
+
+    #Actualizo el estado en la tabla perro
+    def save(self, *args, **kwargs):
+        self.perro.estado_adopcion = self.estado_adopcion.lower()
+        self.perro.save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.adoptante.nombre} {self.adoptante.apellido} adoptó a {self.perro.nombre} - Estado: {self.estado_adopcion}"
 
-    
-    
     
     
